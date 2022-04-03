@@ -6,3 +6,10 @@ Automata Binance Data Stream
 
 ## Clean the build
 `rm -fr dist automata.data.stream.binance.egg-info`
+
+## Running
+
+### IDE
+1. Go to `Run`
+2. Choose `Edit configurations...`
+3. In `Paramaters:` add `wss://testnet.binance.vision/stream?streams=!ticker@arr` (no quotes)

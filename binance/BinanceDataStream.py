@@ -7,13 +7,12 @@ from binance.payload.BinanceDataPayloadProcessor import BinanceDataPayloadProces
 
 class BinanceDataStream:
 
-    def __init__(self):
-        # todo: pass these via arguments
-        url = 'wss://testnet.binance.vision/stream?streams=!ticker@arr'
+    def __init__(self, url):
+        self.url = url
         message_handler = BinanceDataMessageHandler()
         message_processor = BinanceDataMessageProcessor(message_handler)
         payload_processor = BinanceDataPayloadProcessor(message_processor)
-        self.ws_runner = WebSocketRunner(url, payload_processor)
+        self.ws_runner = WebSocketRunner(self.url, payload_processor)
 
     def receive_data(self):
         self.ws_runner.receive_data()

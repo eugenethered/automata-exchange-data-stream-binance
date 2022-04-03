@@ -16,7 +16,7 @@ def init_arg_parser() -> argparse.ArgumentParser:
         version=f"{command_line_argument_parser.prog} version 0.0.1"
     )
 
-    command_line_argument_parser.add_argument('--options', nargs='*', required=True, help='Specific options for Binance data streaming.', action=ParseDictionaryArgs)
+    command_line_argument_parser.add_argument('--options', nargs='*', required=False, help='Specific options for Binance data streaming.', action=ParseDictionaryArgs)
 
     command_line_argument_parser.add_argument('url', help='Binance data stream URL.')
 
