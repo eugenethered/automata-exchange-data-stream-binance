@@ -6,4 +6,4 @@ class BinanceDataMessageHandler(DataMessageHandler):
 
     def handle_message(self, exchange_rate: ExchangeRate):
         print(f'Binance exchange rate -> {exchange_rate}')
-        # todo: handle exchange rate
+        # todo: handle exchange rate (store this in the TS)
