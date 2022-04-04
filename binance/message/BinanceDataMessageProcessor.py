@@ -1,14 +1,17 @@
 from core.exchange.ExchangeRate import ExchangeRate
 from core.number.BigFloat import BigFloat
-from data.message.DataMessageHandler import DataMessageHandler
 from data.message.DataMessageProcessor import DataMessageProcessor
 from utility.json_utility import as_data
+
+from binance.message.BinanceDataMessageHandler import BinanceDataMessageHandler
+from binance.message.transform.BinanceMessageTransformer import BinanceMessageTransformer
 
 
 class BinanceDataMessageProcessor(DataMessageProcessor):
 
-    def __init__(self, message_handler: DataMessageHandler):
+    def __init__(self, message_handler: BinanceDataMessageHandler, options):
         self.message_handler = message_handler
+        self.message_transformer = BinanceMessageTransformer(options)
 
     def process_message(self, message):
         symbol = as_data(message, 's')

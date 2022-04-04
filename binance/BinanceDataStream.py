@@ -7,10 +7,11 @@ from binance.payload.BinanceDataPayloadProcessor import BinanceDataPayloadProces
 
 class BinanceDataStream:
 
-    def __init__(self, url):
+    def __init__(self, url, options):
         self.url = url
+        self.options = options
         message_handler = BinanceDataMessageHandler()
-        message_processor = BinanceDataMessageProcessor(message_handler)
+        message_processor = BinanceDataMessageProcessor(message_handler, self.options)
         payload_processor = BinanceDataPayloadProcessor(message_processor)
         self.ws_runner = WebSocketRunner(self.url, payload_processor)
 

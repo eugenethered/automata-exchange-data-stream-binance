@@ -5,5 +5,5 @@ if __name__ == '__main__':
     command_line_arg_parser = init_arg_parser()
     args = command_line_arg_parser.parse_args()
 
-    data_stream = BinanceDataStream(args.url)
+    data_stream = BinanceDataStream(args.url, args.options)
     data_stream.receive_data()
