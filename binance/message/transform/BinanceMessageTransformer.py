@@ -30,7 +30,7 @@ class BinanceMessageTransformer:
             return self.transform_to_exchange_rate(transform_rule, price)
             # todo: invert (create another?)
         else:
-            logging.debug(f'No Transformation Rule for symbol:{symbol} with price:{price}')
+            logging.warning(f'No Transformation Rule for symbol:{symbol} with price:{price}')
             return None
 
     def transform_to_exchange_rate(self, transform_rule, price):
