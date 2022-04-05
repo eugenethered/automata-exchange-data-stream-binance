@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 
 from cache.holder.RedisCacheHolder import RedisCacheHolder
@@ -24,10 +25,13 @@ class BinanceMessageTransformer:
     # todo: think about invert rule (return > 1)
     def transform(self, symbol, price) -> Optional[ExchangeRate]:
         if symbol in self.transform_rules:
+            logging.debug(f'Transformation Rule being applied to symbol:{symbol} with price:{price}')
             transform_rule = self.transform_rules[symbol]
             return self.transform_to_exchange_rate(transform_rule, price)
             # todo: invert (create another?)
-        return None
+        else:
+            logging.debug(f'No Transformation Rule for symbol:{symbol} with price:{price}')
+            return None
 
     def transform_to_exchange_rate(self, transform_rule, price):
         if transform_rule['ignore'] is True:

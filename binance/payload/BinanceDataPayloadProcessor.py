@@ -1,3 +1,5 @@
+import logging
+
 from data.payload.DataPayloadProcessor import DataPayloadProcessor
 from utility.json_utility import as_json, as_data
 
@@ -11,6 +13,7 @@ class BinanceDataPayloadProcessor(DataPayloadProcessor):
 
     def process_payload(self, payload):
         json_data = as_json(payload)
+        logging.debug(f'Payload received:{json_data}')
         payload_data = as_data(json_data, 'data')
         for message in payload_data:
             self.process_payload_messages(message)
