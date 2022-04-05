@@ -2,7 +2,7 @@ import unittest
 
 from core.number.BigFloat import BigFloat
 
-from binance.message.transform.BinanceMessageTransformer import BinanceMessageTransformer
+from tests.helper.TestBinanceMessageTransformer import TestBinanceMessageTransformer
 
 
 class BinanceMessageTransformerTestCase(unittest.TestCase):
@@ -34,12 +34,6 @@ class BinanceMessageTransformerTestCase(unittest.TestCase):
         transformer = TestBinanceMessageTransformer(transform_rules)
         exchange_rate = transformer.transform('BNBZWL', '1000000000.00')
         self.assertEqual(None, exchange_rate)
-
-
-class TestBinanceMessageTransformer(BinanceMessageTransformer):
-
-    def __init__(self, transform_rules):
-        self.transform_rules = dict(self.unpack_transform_rules(transform_rules))
 
 
 if __name__ == '__main__':

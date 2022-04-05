@@ -2,9 +2,10 @@ import unittest
 
 from core.exchange.ExchangeRate import ExchangeRate
 from core.number.BigFloat import BigFloat
-from data.message.DataMessageHandler import DataMessageHandler
 
+from binance.message.BinanceDataMessageHandler import BinanceDataMessageHandler
 from binance.message.BinanceDataMessageProcessor import BinanceDataMessageProcessor
+from tests.helper.TestBinanceMessageTransformer import TestBinanceMessageTransformer
 
 
 class BinanceDataMessageProcessorTestCase(unittest.TestCase):
@@ -36,13 +37,19 @@ class BinanceDataMessageProcessorTestCase(unittest.TestCase):
             'x': '46560.65000000'
         }
         message_handler = TestMessageHandler()
-        message_processor = BinanceDataMessageProcessor(message_handler)
+        message_transformer = TestBinanceMessageTransformer(transform_rules=[{
+            'instrument': 'BTCUSDT',
+            'transform': {
+                'currency': 'BTC/USDT'
+            }
+        }])
+        message_processor = BinanceDataMessageProcessor(message_handler, message_transformer)
         message_processor.process_message(message)
         expected_exchange_rate = ExchangeRate('BTC', 'USDT', BigFloat('46488.89000000'))
         self.assertEqual(expected_exchange_rate, message_handler.exchange_rate)
 
 
-class TestMessageHandler(DataMessageHandler):
+class TestMessageHandler(BinanceDataMessageHandler):
 
     def __init__(self):
         self.exchange_rate = None

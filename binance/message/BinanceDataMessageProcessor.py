@@ -7,9 +7,9 @@ from binance.message.transform.BinanceMessageTransformer import BinanceMessageTr
 
 class BinanceDataMessageProcessor(DataMessageProcessor):
 
-    def __init__(self, message_handler: BinanceDataMessageHandler, options):
+    def __init__(self, message_handler: BinanceDataMessageHandler, message_transformer: BinanceMessageTransformer):
         self.message_handler = message_handler
-        self.message_transformer = BinanceMessageTransformer(options)
+        self.message_transformer = message_transformer
 
     def process_message(self, message):
         symbol = as_data(message, 's')

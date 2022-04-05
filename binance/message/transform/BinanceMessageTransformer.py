@@ -1,6 +1,6 @@
 from typing import Optional
 
-from cache.provider.RedisCacheProvider import RedisCacheProvider
+from cache.holder.RedisCacheHolder import RedisCacheHolder
 from core.exchange.ExchangeRate import ExchangeRate
 from core.number.BigFloat import BigFloat
 from utility.json_utility import as_data
@@ -12,19 +12,9 @@ class BinanceMessageTransformer:
         self.transform_rules = self.load_transform_rules(options)
 
     def load_transform_rules(self, options):
-        transform_rules_server_url = options['MESSAGE_TRANSFORM_RULES_URL']
-        cache_provider = self.init_cache_provider(transform_rules_server_url)
-        transform_rules = cache_provider.fetch(options['MESSAGE_TRANSFORM_RULES_KEY'], as_type=dict)
+        cache = RedisCacheHolder()
+        transform_rules = cache.fetch(options['MESSAGE_TRANSFORM_RULES_KEY'], as_type=dict)
         return dict(self.unpack_transform_rules(transform_rules))
-
-    @staticmethod
-    def init_cache_provider(transform_rules_server_url):
-        (server_address, server_port) = tuple(transform_rules_server_url.split(':'))
-        options = {
-            'REDIS_SERVER_ADDRESS': server_address,
-            'REDIS_SERVER_PORT': int(server_port)
-        }
-        return RedisCacheProvider(options)
 
     @staticmethod
     def unpack_transform_rules(transform_rules):
