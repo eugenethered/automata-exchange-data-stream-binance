@@ -11,7 +11,7 @@ class BinanceDataStream:
     def __init__(self, url, options):
         self.url = url
         self.options = options
-        message_handler = BinanceDataMessageHandler()
+        message_handler = BinanceDataMessageHandler(self.options)
         message_transformer = BinanceMessageTransformer(self.options)
         message_processor = BinanceDataMessageProcessor(message_handler, message_transformer)
         payload_processor = BinanceDataPayloadProcessor(message_processor)
