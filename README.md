@@ -1,5 +1,4 @@
-# automata-data-stream-binance
-Automata Binance Data Stream
+# Automata Binance Data Stream
 
 ## Packaging
 `python3 -m build`
@@ -14,5 +13,5 @@ Automata Binance Data Stream
 2. Choose `Edit configurations...`
 3. In `Paramaters:` 
    ```
-   wss://testnet.binance.vision/stream?streams=!ticker@arr --options REDIS_SERVER_ADDRESS=192.168.1.90 REDIS_SERVER_PORT=6379 MESSAGE_TRANSFORM_RULES_KEY=binance:message:transform-rules TIMESERIES_KEY=binance:{}
+   wss://testnet.binance.vision/stream?streams=!ticker@arr --options REDIS_SERVER_ADDRESS=192.168.1.90 REDIS_SERVER_PORT=6379 MESSAGE_TRANSFORM_RULES_KEY=binance:message:transform-rules TIMESERIES_KEY=binance:exchange-rate:{}
    ```
