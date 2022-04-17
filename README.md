@@ -3,8 +3,11 @@
 ## Packaging
 `python3 -m build`
 
-## Clean the build
-`rm -fr dist automata.data.stream.binance.egg-info`
+## Dependencies (IDE Terminal)
+`pip install persuader-technology-automata-core`
+`pip install persuader-technology-automata-utilities`
+`pip install persuader-technology-automata-redis`
+`pip install persuader-technology-automata-data.stream`
 
 ## Running
 

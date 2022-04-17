@@ -8,6 +8,7 @@ class TransformRuleStoreHandler:
 
     @staticmethod
     def obtain_transformation_rules():
+        # todo: when 'invert' should add another exchange rate with inverted rate
         return [
             {
                 'instrument': 'BTCUSDT',
@@ -18,7 +19,8 @@ class TransformRuleStoreHandler:
             {
                 'instrument': 'BNBUSDT',
                 'transform': {
-                    'currency': 'BNB/USDT'
+                    'currency': 'BNB/USDT',
+                    'invert': True
                 }
             }
         ]
