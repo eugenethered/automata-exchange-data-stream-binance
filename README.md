@@ -4,10 +4,7 @@
 `python3 -m build`
 
 ## Dependencies (IDE Terminal)
-`pip install persuader-technology-automata-core`
-`pip install persuader-technology-automata-utilities`
-`pip install persuader-technology-automata-redis`
-`pip install persuader-technology-automata-data.stream`
+`pip install persuader-technology-automata-core persuader-technology-automata-utilities persuader-technology-automata-redis persuader-technology-automata-data.stream`
 
 ## Running
 
