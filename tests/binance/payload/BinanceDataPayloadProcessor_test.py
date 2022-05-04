@@ -38,7 +38,8 @@ class BinanceDataPayloadProcessorTestCase(unittest.TestCase):
                   '}]' \
                   '}'
         message_processor = TestAccumulatingDataMessageProcessor()
-        payload_processor = BinanceDataPayloadProcessor(message_processor)
+        message_processors = [message_processor]
+        payload_processor = BinanceDataPayloadProcessor(message_processors)
         payload_processor.process_payload(payload)
         expected_message = {
             'A': '0.04280400',
@@ -75,7 +76,8 @@ class BinanceDataPayloadProcessorTestCase(unittest.TestCase):
                       '{"e":"24hrTicker","E":1648913430060,"s":"BTCUSDT","p":"-71.76000000","P":"-0.154","w":"46472.77080038","x":"46560.65000000","c":"46488.89000000","Q":"0.04087000","b":"46491.59000000","B":"0.03226400","a":"46491.60000000","A":"0.04280400","o":"46560.65000000","h":"95000.00000000","l":"44477.76000000","v":"2564.68508800","q":"119188022.26977675","O":1648827026946,"C":1648913426946,"F":4732465,"L":4840067,"n":107603}' \
                   ']}'
         message_processor = TestAccumulatingDataMessageProcessor()
-        payload_processor = BinanceDataPayloadProcessor(message_processor)
+        message_processors = [message_processor]
+        payload_processor = BinanceDataPayloadProcessor(message_processors)
         payload_processor.process_payload(payload)
         self.assertEqual(2, len(message_processor.messages), 'Payload should have 2 message')
 
@@ -84,6 +86,7 @@ class BinanceDataPayloadProcessorTestCase(unittest.TestCase):
 class TestAccumulatingDataMessageProcessor(DataMessageProcessor):
 
     def __init__(self):
+        super().__init__('!ticker@arr')
         self.messages = []
 
     def process_message(self, message):

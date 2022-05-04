@@ -11,7 +11,7 @@ class BinanceMessageTransformerTestCase(unittest.TestCase):
         transform_rules = [{
             'instrument': 'BNBUSDT',
             'transform': {
-                'currency': 'BNB/USDT'
+                'instruments': 'BNB/USDT'
             }
         }]
         transformer = TestBinanceMessageTransformer(transform_rules)

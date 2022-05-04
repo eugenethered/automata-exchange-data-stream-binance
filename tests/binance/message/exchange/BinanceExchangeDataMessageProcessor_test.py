@@ -40,7 +40,7 @@ class BinanceDataMessageProcessorTestCase(unittest.TestCase):
         message_transformer = TestBinanceMessageTransformer(transform_rules=[{
             'instrument': 'BTCUSDT',
             'transform': {
-                'currency': 'BTC/USDT'
+                'instruments': 'BTC/USDT'
             }
         }])
         message_processor = BinanceExchangeDataMessageProcessor(message_transformer, message_handler)

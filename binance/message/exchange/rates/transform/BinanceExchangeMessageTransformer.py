@@ -14,7 +14,7 @@ class BinanceExchangeMessageTransformer:
 
     def load_transform_rules(self, options):
         cache = RedisCacheHolder()
-        transform_rules = cache.fetch(options['MESSAGE_TRANSFORM_RULES_KEY'], as_type=dict)
+        transform_rules = cache.fetch(options['EXCHANGE_TRANSFORMATION_RULES_KEY'], as_type=dict)
         return dict(self.unpack_transform_rules(transform_rules))
 
     @staticmethod
@@ -36,11 +36,11 @@ class BinanceExchangeMessageTransformer:
     def transform_to_exchange_rate(self, transform_rule, price):
         if transform_rule['ignore'] is True:
             return None
-        (currency, invert) = self.extract_transform_constituents(transform_rule['transform'])
-        (from_currency, to_currency) = tuple(currency.split('/'))
-        return ExchangeRate(from_currency, to_currency, BigFloat(price))
+        (instruments, invert) = self.extract_transform_constituents(transform_rule['transform'])
+        (instrument, to_instrument) = tuple(instruments.split('/'))
+        return ExchangeRate(instrument, to_instrument, BigFloat(price))
 
     @staticmethod
     def extract_transform_constituents(transform):
-        return as_data(transform, 'currency'), as_data(transform, 'invert', False)
+        return as_data(transform, 'instruments'), as_data(transform, 'invert', False)
 

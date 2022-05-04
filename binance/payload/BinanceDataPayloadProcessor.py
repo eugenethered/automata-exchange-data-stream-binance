@@ -1,23 +1,25 @@
 import logging
+from typing import List
 
-from binance.message.exchange.rates.BinanceExchangeDataMessageProcessor import BinanceExchangeDataMessageProcessor
+from data.message.DataMessageProcessor import DataMessageProcessor
 from data.payload.DataPayloadProcessor import DataPayloadProcessor
 from utility.json_utility import as_json, as_data
 
 
 class BinanceDataPayloadProcessor(DataPayloadProcessor):
 
-    # todo: change to use multiple processors
-    def __init__(self, message_processor: BinanceExchangeDataMessageProcessor):
-        self.message_processor = message_processor
+    def __init__(self, message_processors: List[DataMessageProcessor]):
+        self.message_processors = message_processors
 
     def process_payload(self, payload):
         json_data = as_json(payload)
-        # todo: get the stream
         logging.debug(f'Payload received:{json_data}')
+        stream = as_data(json_data, 'stream')
         payload_data = as_data(json_data, 'data')
         for message in payload_data:
-            self.process_payload_messages(message)
+            self.process_payload_message(message, stream)
 
-    def process_payload_messages(self, payload_message):
-        self.message_processor.process_message(payload_message)
+    def process_payload_message(self, payload_message, stream):
+        for message_processor in self.message_processors:
+            if message_processor.get_listen_to_stream() == stream:
+                message_processor.process_message(payload_message)

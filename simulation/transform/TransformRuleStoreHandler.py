@@ -13,13 +13,13 @@ class TransformRuleStoreHandler:
             {
                 'instrument': 'BTCUSDT',
                 'transform': {
-                    'currency': 'BTC/USDT'
+                    'instruments': 'BTC/USDT'
                 }
             },
             {
                 'instrument': 'BNBUSDT',
                 'transform': {
-                    'currency': 'BNB/USDT',
+                    'instruments': 'BNB/USDT',
                     'invert': True
                 }
             }

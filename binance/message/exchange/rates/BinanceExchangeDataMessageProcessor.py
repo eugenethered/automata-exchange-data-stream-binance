@@ -1,6 +1,4 @@
-from core.exchange.ExchangeRate import ExchangeRate
 from data.message.DataMessageProcessor import DataMessageProcessor
-from exchangerepo.repository.ExchangeRateRepository import ExchangeRateRepository
 from utility.json_utility import as_data
 
 from binance.message.exchange.rates.handler.BinanceExchangeDataMessageHandler import BinanceExchangeDataMessageHandler
