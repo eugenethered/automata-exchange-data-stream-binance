@@ -16,8 +16,8 @@ class BinanceMessageTransformerTestCase(unittest.TestCase):
         }]
         transformer = TestBinanceMessageTransformer(transform_rules)
         exchange_rate = transformer.transform('BNBUSDT', '445.20000000')
-        self.assertEqual('BNB', exchange_rate.currency)
-        self.assertEqual('USDT', exchange_rate.to_currency)
+        self.assertEqual('BNB', exchange_rate.instrument)
+        self.assertEqual('USDT', exchange_rate.to_instrument)
         self.assertEqual(BigFloat('445.20000000'), exchange_rate.rate)
 
     def test_should_not_transform_symbol_price_to_exchange_rate_when_rule_for_symbol_not_present(self):

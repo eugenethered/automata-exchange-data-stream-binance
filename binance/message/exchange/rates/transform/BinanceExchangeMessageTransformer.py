@@ -7,7 +7,7 @@ from core.number.BigFloat import BigFloat
 from utility.json_utility import as_data
 
 
-class BinanceMessageTransformer:
+class BinanceExchangeMessageTransformer:
 
     def __init__(self, options):
         self.transform_rules = self.load_transform_rules(options)

@@ -1,8 +1,9 @@
 from data.websocket.WebSocketRunner import WebSocketRunner
+from exchangerepo.repository.ExchangeRateRepository import ExchangeRateRepository
 
-from binance.message.BinanceDataMessageHandler import BinanceDataMessageHandler
-from binance.message.BinanceDataMessageProcessor import BinanceDataMessageProcessor
-from binance.message.transform.BinanceMessageTransformer import BinanceMessageTransformer
+from binance.message.exchange.rates.BinanceExchangeDataMessageProcessor import BinanceExchangeDataMessageProcessor
+from binance.message.exchange.rates.handler.BinanceExchangeDataMessageHandler import BinanceExchangeDataMessageHandler
+from binance.message.exchange.rates.transform.BinanceExchangeMessageTransformer import BinanceExchangeMessageTransformer
 from binance.payload.BinanceDataPayloadProcessor import BinanceDataPayloadProcessor
 
 
@@ -11,9 +12,10 @@ class BinanceDataStream:
     def __init__(self, url, options):
         self.url = url
         self.options = options
-        message_handler = BinanceDataMessageHandler(self.options)
-        message_transformer = BinanceMessageTransformer(self.options)
-        message_processor = BinanceDataMessageProcessor(message_handler, message_transformer)
+        message_transformer = BinanceExchangeMessageTransformer(self.options)
+        repository = ExchangeRateRepository(self.options)
+        message_handler = BinanceExchangeDataMessageHandler(repository)
+        message_processor = BinanceExchangeDataMessageProcessor(message_transformer, message_handler)
         payload_processor = BinanceDataPayloadProcessor(message_processor)
         self.ws_runner = WebSocketRunner(self.url, payload_processor)
 
