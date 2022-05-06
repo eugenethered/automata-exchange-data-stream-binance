@@ -9,6 +9,8 @@ from binance.message.trade.handler.BinanceTradeDataMessageHandler import Binance
 from binance.message.trade.transform.BinanceTradeMessageTransformer import BinanceTradeMessageTransformer
 from binance.payload.BinanceDataPayloadProcessor import BinanceDataPayloadProcessor
 
+PROCESS_MESSAGES = 'PROCESS_MESSAGES'
+
 
 class BinanceDataStream:
 
@@ -16,25 +18,29 @@ class BinanceDataStream:
         # todo: build url from streams (listen to specific streams)
         self.url = url
         self.options = options
-        message_processors = self.init_message_processors()
-        payload_processor = BinanceDataPayloadProcessor(message_processors)
+        self.message_processors = []
+        self.init_message_processors()
+        payload_processor = BinanceDataPayloadProcessor(self.message_processors)
         self.ws_runner = WebSocketRunner(self.url, payload_processor)
 
     def init_message_processors(self):
-        trade_message_processor = self.init_trade_message_processor()
-        exchange_message_processor = self.init_exchange_message_processor()
-        return [exchange_message_processor, trade_message_processor]
+        self.init_trade_message_processor()
+        self.init_exchange_message_processor()
 
     def init_exchange_message_processor(self):
-        message_transformer = BinanceExchangeMessageTransformer(self.options)
-        repository = ExchangeRateRepository(self.options)
-        message_handler = BinanceExchangeDataMessageHandler(repository)
-        return BinanceExchangeDataMessageProcessor(message_transformer, message_handler)
+        if 'exchange' in self.options[PROCESS_MESSAGES]:
+            message_transformer = BinanceExchangeMessageTransformer(self.options)
+            repository = ExchangeRateRepository(self.options)
+            message_handler = BinanceExchangeDataMessageHandler(repository)
+            message_processor = BinanceExchangeDataMessageProcessor(message_transformer, message_handler)
+            self.message_processors.append(message_processor)
 
     def init_trade_message_processor(self):
-        message_transformer = BinanceTradeMessageTransformer(self.options)
-        message_handler = BinanceTradeDataMessageHandler()
-        return BinanceTradeDataMessageProcessor(message_transformer, message_handler)
+        if 'trade' in self.options[PROCESS_MESSAGES]:
+            message_transformer = BinanceTradeMessageTransformer(self.options)
+            message_handler = BinanceTradeDataMessageHandler()
+            message_processor = BinanceTradeDataMessageProcessor(message_transformer, message_handler)
+            self.message_processors.append(message_processor)
 
     def receive_data(self):
         self.ws_runner.receive_data()
