@@ -14,12 +14,13 @@ PROCESS_MESSAGES = 'PROCESS_MESSAGES'
 
 class BinanceDataStream:
 
+    # todo: need to handle the listen key -> for orders
     def __init__(self, url, options):
-        # todo: build url from streams (listen to specific streams)
-        self.url = url
         self.options = options
         self.message_processors = []
+        self.streams = []
         self.init_message_processors()
+        self.url = self.build_url(url)
         payload_processor = BinanceDataPayloadProcessor(self.message_processors)
         self.ws_runner = WebSocketRunner(self.url, payload_processor)
 
@@ -34,6 +35,7 @@ class BinanceDataStream:
             message_handler = BinanceExchangeDataMessageHandler(repository)
             message_processor = BinanceExchangeDataMessageProcessor(message_transformer, message_handler)
             self.message_processors.append(message_processor)
+            self.streams.append(message_processor.get_listen_to_stream())
 
     def init_trade_message_processor(self):
         if 'trade' in self.options[PROCESS_MESSAGES]:
@@ -41,6 +43,11 @@ class BinanceDataStream:
             message_handler = BinanceTradeDataMessageHandler()
             message_processor = BinanceTradeDataMessageProcessor(message_transformer, message_handler)
             self.message_processors.append(message_processor)
+            self.streams.append(message_processor.get_listen_to_stream())
+
+    def build_url(self, url):
+        streams = '/'.join(self.streams)
+        return f'{url}{streams}'
 
     def receive_data(self):
         self.ws_runner.receive_data()
