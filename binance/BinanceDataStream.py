@@ -9,14 +9,15 @@ from binance.message.trade.handler.BinanceTradeDataMessageHandler import Binance
 from binance.message.trade.transform.BinanceTradeMessageTransformer import BinanceTradeMessageTransformer
 from binance.payload.BinanceDataPayloadProcessor import BinanceDataPayloadProcessor
 
-PROCESS_MESSAGES = 'PROCESS_MESSAGES'
+PROCESS_MESSAGE = 'PROCESS_MESSAGE'
 
 
 class BinanceDataStream:
 
-    # todo: need to handle the listen key -> for orders
+    # todo: need to handle the "listen key" -> for orders
     def __init__(self, url, options):
         self.options = options
+        self.message_processor_options = self.parse_message_processor_options()
         self.message_processors = []
         self.streams = []
         self.init_message_processors()
@@ -24,12 +25,15 @@ class BinanceDataStream:
         payload_processor = BinanceDataPayloadProcessor(self.message_processors)
         self.ws_runner = WebSocketRunner(self.url, payload_processor)
 
+    def parse_message_processor_options(self):
+        return self.options[PROCESS_MESSAGE].split(',')
+
     def init_message_processors(self):
         self.init_trade_message_processor()
         self.init_exchange_message_processor()
 
     def init_exchange_message_processor(self):
-        if 'exchange' in self.options[PROCESS_MESSAGES]:
+        if 'exchange' in self.message_processor_options:
             message_transformer = BinanceExchangeMessageTransformer(self.options)
             repository = ExchangeRateRepository(self.options)
             message_handler = BinanceExchangeDataMessageHandler(repository)
@@ -38,7 +42,7 @@ class BinanceDataStream:
             self.streams.append(message_processor.get_listen_to_stream())
 
     def init_trade_message_processor(self):
-        if 'trade' in self.options[PROCESS_MESSAGES]:
+        if 'trade' in self.message_processor_options:
             message_transformer = BinanceTradeMessageTransformer(self.options)
             message_handler = BinanceTradeDataMessageHandler()
             message_processor = BinanceTradeDataMessageProcessor(message_transformer, message_handler)
