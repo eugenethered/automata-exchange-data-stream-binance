@@ -7,7 +7,7 @@ if __name__ == '__main__':
         'REDIS_SERVER_PORT': 6379
     }
 
-    EXCHANGE_TRANSFORMATION_RULES_KEY = 'binance:exchange:transform-rules'
+    EXCHANGE_TRANSFORMATIONS_KEY = 'binance:exchange:transformations'
 
     rule_handler = TransformRuleStoreHandler(options)
-    rule_handler.store_transformation_rules(EXCHANGE_TRANSFORMATION_RULES_KEY)
+    rule_handler.store_transformations(EXCHANGE_TRANSFORMATIONS_KEY)
