@@ -13,7 +13,7 @@
 2. Choose `Edit configurations...`
 3. In `Paramaters:` 
    ```
-   wss://testnet.binance.vision/stream?streams=!ticker@arr 
+   wss://testnet.binance.vision/stream?streams=!ticker@arr  
    --options 
      REDIS_SERVER_ADDRESS=192.168.1.90 
      REDIS_SERVER_PORT=6379 
