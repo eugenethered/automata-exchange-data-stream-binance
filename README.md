@@ -17,7 +17,7 @@
    --options 
      REDIS_SERVER_ADDRESS=192.168.1.90 
      REDIS_SERVER_PORT=6379 
-     EXCHANGE_TRANSFORMATION_RULES_KEY=binance:exchange:transform-rules
+     EXCHANGE_TRANSFORMATION_KEY=binance:exchange:transform-rules
      EXCHANGE_RATE_TIMESERIES_KEY=binance:time-series:exchange-rate:{}
      MISSING_KEY=binance:missing
    ```
