@@ -21,10 +21,10 @@ class BinanceExchangeMessageTransformer:
 
     def load_transform_rules(self):
         exchange_transformations = self.repository.retrieve()
-        return dict(self.unpack_transform_rules(exchange_transformations))
+        return dict(self.unpack_transformations(exchange_transformations))
 
     @staticmethod
-    def unpack_transform_rules(exchange_transformations: List[ExchangeTransform]):
+    def unpack_transformations(exchange_transformations: List[ExchangeTransform]):
         for exchange_transform in exchange_transformations:
             yield exchange_transform.instrument, exchange_transform
 

@@ -2,6 +2,7 @@ import unittest
 
 from core.exchange.ExchangeRate import ExchangeRate
 from core.number.BigFloat import BigFloat
+from exchangetransformrepo.ExchangeTransform import ExchangeTransform
 
 from binance.message.exchange.rates.BinanceExchangeDataMessageProcessor import BinanceExchangeDataMessageProcessor
 from binance.message.exchange.rates.handler.BinanceExchangeDataMessageHandler import BinanceExchangeDataMessageHandler
@@ -37,12 +38,11 @@ class BinanceDataMessageProcessorTestCase(unittest.TestCase):
             'x': '46560.65000000'
         }
         message_handler = TestMessageHandler()
-        message_transformer = TestBinanceMessageTransformer(transform_rules=[{
-            'instrument': 'BTCUSDT',
-            'transform': {
+        message_transformer = TestBinanceMessageTransformer(transformations=[
+            ExchangeTransform('BTCUSDT', {
                 'instruments': 'BTC/USDT'
-            }
-        }])
+            })
+        ])
         message_processor = BinanceExchangeDataMessageProcessor(message_transformer, message_handler)
         message_processor.process_message(message)
         expected_exchange_rate = ExchangeRate('BTC', 'USDT', BigFloat('46488.89000000'))
