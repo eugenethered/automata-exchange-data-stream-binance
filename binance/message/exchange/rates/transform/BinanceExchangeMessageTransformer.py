@@ -17,9 +17,16 @@ class BinanceExchangeMessageTransformer:
     def __init__(self, repository: ExchangeTransformRepository):
         self.repository = repository
         self.config_reporter = ConfigReporterHolder()
-        self.transform_rules = self.load_transform_rules()
+        self.config_reporter.set_ignored_check_func(self.missing_ignore_check)
+        self.transformations = self.load_transformations()
 
-    def load_transform_rules(self):
+    def missing_ignore_check(self, missing: Missing):
+        # todo: make this more performant (advanced: periodic check every 30 mins)
+        transformations = self.repository.retrieve()
+        ignored_instruments = list([transform.instrument for transform in transformations if transform.ignore is True])
+        return False if len(ignored_instruments) == 0 else missing.missing in ignored_instruments
+
+    def load_transformations(self):
         exchange_transformations = self.repository.retrieve()
         return dict(self.unpack_transformations(exchange_transformations))
 
@@ -30,15 +37,13 @@ class BinanceExchangeMessageTransformer:
 
     # todo: think about invert rule (return > 1)
     def transform(self, symbol, price) -> Optional[ExchangeRate]:
-        if symbol in self.transform_rules:
+        if symbol in self.transformations:
             logging.debug(f'Transformation Rule being applied to symbol:{symbol} with price:{price}')
-            exchange_transformation = self.transform_rules[symbol]
+            exchange_transformation = self.transformations[symbol]
             return self.transform_to_exchange_rate(exchange_transformation, price)
             # todo: invert (create another?)
         else:
-            missing = Missing(symbol, Context.EXCHANGE, Market.BINANCE, f'Missing instrument:[{symbol}] with price:[{price}]')
-            self.config_reporter.report_missing(missing)
-            logging.warning(f'No Transformation Rule for symbol:{symbol} with price:{price}')
+            self.report_missing_exchange_rate(symbol, price)
             return None
 
     def transform_to_exchange_rate(self, exchange_transformation, price):
@@ -52,3 +57,8 @@ class BinanceExchangeMessageTransformer:
     def extract_transform_constituents(transform):
         return as_data(transform, 'instruments'), as_data(transform, 'invert', False)
 
+    def report_missing_exchange_rate(self, symbol, price):
+        def log_missing():
+            logging.warning(f'No Transformation Rule for symbol:{symbol} with price:{price}')
+        missing = Missing(symbol, Context.EXCHANGE, Market.BINANCE, f'Missing instrument:[{symbol}] with price:[{price}]')
+        self.config_reporter.report_missing(missing, log_missing)

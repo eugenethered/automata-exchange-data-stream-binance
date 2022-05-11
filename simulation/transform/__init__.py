@@ -1,4 +1,4 @@
-from simulation.transform.TransformRuleStoreHandler import TransformRuleStoreHandler
+from simulation.transform.TransformationStoreHandler import TransformationStoreHandler
 
 if __name__ == '__main__':
 
@@ -9,5 +9,5 @@ if __name__ == '__main__':
 
     EXCHANGE_TRANSFORMATIONS_KEY = 'binance:exchange:transformations'
 
-    rule_handler = TransformRuleStoreHandler(options)
-    rule_handler.store_transformations(EXCHANGE_TRANSFORMATIONS_KEY)
+    transformations_handler = TransformationStoreHandler(options)
+    transformations_handler.store_transformations(EXCHANGE_TRANSFORMATIONS_KEY)

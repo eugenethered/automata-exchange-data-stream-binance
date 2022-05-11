@@ -1,7 +1,7 @@
 from cache.holder.RedisCacheHolder import RedisCacheHolder
 
 
-class TransformRuleStoreHandler:
+class TransformationStoreHandler:
 
     def __init__(self, options):
         self.cache = RedisCacheHolder(options)
@@ -20,6 +20,10 @@ class TransformRuleStoreHandler:
                 'transform': {
                     'instruments': 'BNB/USDT'
                 }
+            },
+            {
+                'instrument': 'ADAUPUSDT',
+                'ignore': True
             }
         ]
 

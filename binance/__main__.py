@@ -11,6 +11,7 @@ if __name__ == '__main__':
     args = command_line_arg_parser.parse_args()
 
     logging.basicConfig(level=logging.INFO)
+
     logging.info(f'Binance Exchange Data Stream starting with URL {args.url} OPTIONS {args.options}')
 
     RedisCacheHolder(args.options)

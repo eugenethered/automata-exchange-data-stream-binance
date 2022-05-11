@@ -15,7 +15,7 @@ class BinanceExchangeDataStream:
         self.options = options
         exchange_message_processor = self.init_exchange_message_processor()
         payload_processor = BinanceDataPayloadProcessor([exchange_message_processor])
-        self.ws_runner = WebSocketRunner(self.url, payload_processor)
+        self.ws_runner = WebSocketRunner(self.url, payload_processor, ping_interval=8)
 
     def init_exchange_message_processor(self):
         repository = ExchangeTransformRepository(self.options)
