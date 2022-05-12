@@ -16,14 +16,12 @@ class BinanceExchangeMessageTransformer:
 
     def __init__(self, repository: ExchangeTransformRepository):
         self.repository = repository
+        self.transformations = self.load_transformations()
         self.config_reporter = ConfigReporterHolder()
         self.config_reporter.set_ignored_check_func(self.missing_ignore_check)
-        self.transformations = self.load_transformations()
 
     def missing_ignore_check(self, missing: Missing):
-        # todo: make this more performant (advanced: periodic check every 30 mins)
-        transformations = self.repository.retrieve()
-        ignored_instruments = list([transform.instrument for transform in transformations if transform.ignore is True])
+        ignored_instruments = list([k for k, t in self.transformations.items() if t.ignore is True])
         return False if len(ignored_instruments) == 0 else missing.missing in ignored_instruments
 
     def load_transformations(self):
@@ -59,6 +57,6 @@ class BinanceExchangeMessageTransformer:
 
     def report_missing_exchange_rate(self, symbol, price):
         def log_missing():
-            logging.warning(f'No Transformation Rule for symbol:{symbol} with price:{price}')
+            logging.warning(f'No transformation for raw instrument:{symbol} with price:{price}')
         missing = Missing(symbol, Context.EXCHANGE, Market.BINANCE, f'Missing instrument:[{symbol}] with price:[{price}]')
         self.config_reporter.report_missing(missing, log_missing)
