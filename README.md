@@ -19,7 +19,7 @@
      REDIS_SERVER_PORT=6379 
      EXCHANGE_TRANSFORMATIONS_KEY=binance:exchange:transformations 
      EXCHANGE_RATE_TIMESERIES_KEY=binance:time-series:exchange-rate:{}  
-     EXCHANGE_RATE_TIMESERIES_RETENTION=3600000 
+     EXCHANGE_RATE_TIMESERIES_RETENTION=360000 
      MISSING_KEY=binance:missing
    ```
 
