@@ -6,10 +6,10 @@ from core.exchange.ExchangeRate import ExchangeRate
 from core.market.Market import Market
 from core.missing.Context import Context
 from core.number.BigFloat import BigFloat
+from coreutility.collection.dictionary_utility import as_data
 from exchangetransformrepo.ExchangeTransform import ExchangeTransform
 from exchangetransformrepo.repository.ExchangeTransformRepository import ExchangeTransformRepository
 from missingrepo.Missing import Missing
-from utility.json_utility import as_data
 
 
 class BinanceExchangeMessageTransformer:

@@ -3,9 +3,10 @@ import time
 from typing import List
 
 from config.report.holder.ConfigReporterHolder import ConfigReporterHolder
+from coreutility.collection.dictionary_utility import as_data
+from coreutility.json.json_utility import as_json
 from data.message.DataMessageProcessor import DataMessageProcessor
 from data.payload.DataPayloadProcessor import DataPayloadProcessor
-from utility.json_utility import as_json, as_data
 
 
 class BinanceDataPayloadProcessor(DataPayloadProcessor):
@@ -32,7 +33,7 @@ class BinanceDataPayloadProcessor(DataPayloadProcessor):
 
     def process_payload_message(self, payload_message, stream):
         for message_processor in self.message_processors:
-            if message_processor.get_listen_to_stream() == stream:
+            if message_processor.get_listen_stream() == stream:
                 message_processor.process_message(payload_message)
 
     @staticmethod

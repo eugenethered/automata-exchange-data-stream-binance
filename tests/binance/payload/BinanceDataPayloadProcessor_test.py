@@ -86,7 +86,8 @@ class BinanceDataPayloadProcessorTestCase(unittest.TestCase):
 class TestAccumulatingDataMessageProcessor(DataMessageProcessor):
 
     def __init__(self):
-        super().__init__('!ticker@arr')
+        super().__init__()
+        self.set_listen_stream('!ticker@arr')
         self.messages = []
 
     def process_message(self, message):

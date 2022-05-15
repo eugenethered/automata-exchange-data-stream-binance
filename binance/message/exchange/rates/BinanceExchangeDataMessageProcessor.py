@@ -1,5 +1,5 @@
+from coreutility.collection.dictionary_utility import as_data
 from data.message.DataMessageProcessor import DataMessageProcessor
-from utility.json_utility import as_data
 
 from binance.message.exchange.rates.handler.BinanceExchangeDataMessageHandler import BinanceExchangeDataMessageHandler
 from binance.message.exchange.rates.transform import BinanceExchangeMessageTransformer
@@ -8,7 +8,8 @@ from binance.message.exchange.rates.transform import BinanceExchangeMessageTrans
 class BinanceExchangeDataMessageProcessor(DataMessageProcessor):
 
     def __init__(self, message_transformer: BinanceExchangeMessageTransformer, message_handler: BinanceExchangeDataMessageHandler):
-        super().__init__('!ticker@arr')
+        super().__init__()
+        self.set_listen_stream('!ticker@arr')
         self.message_transformer = message_transformer
         self.message_handler = message_handler
 
