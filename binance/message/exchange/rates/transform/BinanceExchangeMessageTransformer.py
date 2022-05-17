@@ -33,10 +33,10 @@ class BinanceExchangeMessageTransformer:
         for exchange_transform in exchange_transformations:
             yield exchange_transform.instrument, exchange_transform
 
-    # todo: think about invert rule (return > 1)
+    # todo: think about invert transform (return > 1)
     def transform(self, symbol, price) -> Optional[ExchangeRate]:
         if symbol in self.transformations:
-            logging.debug(f'Transformation Rule being applied to symbol:{symbol} with price:{price}')
+            logging.debug(f'Transformation being applied to symbol:{symbol} with price:{price}')
             exchange_transformation = self.transformations[symbol]
             return self.transform_to_exchange_rate(exchange_transformation, price)
             # todo: invert (create another?)
