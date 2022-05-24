@@ -21,6 +21,8 @@
      EXCHANGE_RATE_TIMESERIES_KEY=binance:time-series:exchange-rate:{}  
      EXCHANGE_RATE_TIMESERIES_RETENTION=360000 
      MISSING_KEY=binance:missing
+     PROCESS_KEY={}:process:status:{} 
+     PROCESS_RUN_PROFILE_KEY={}:process:run-profile:{} 
    ```
 
 ## Environments

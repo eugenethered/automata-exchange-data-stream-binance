@@ -3,7 +3,6 @@ from typing import Optional, List
 
 from config.report.holder.ConfigReporterHolder import ConfigReporterHolder
 from core.exchange.ExchangeRate import ExchangeRate
-from core.market.Market import Market
 from core.missing.Context import Context
 from core.number.BigFloat import BigFloat
 from coreutility.collection.dictionary_utility import as_data
@@ -15,6 +14,7 @@ from missingrepo.Missing import Missing
 class BinanceExchangeMessageTransformer:
 
     def __init__(self, repository: ExchangeTransformRepository):
+        self.log = logging.getLogger(__name__)
         self.repository = repository
         self.transformations = self.load_transformations()
         self.config_reporter = ConfigReporterHolder()
@@ -36,7 +36,7 @@ class BinanceExchangeMessageTransformer:
     # todo: think about invert transform (return > 1)
     def transform(self, symbol, price) -> Optional[ExchangeRate]:
         if symbol in self.transformations:
-            logging.debug(f'Transformation being applied to symbol:{symbol} with price:{price}')
+            self.log.debug(f'Transformation being applied to symbol:{symbol} with price:{price}')
             exchange_transformation = self.transformations[symbol]
             return self.transform_to_exchange_rate(exchange_transformation, price)
             # todo: invert (create another?)
@@ -57,6 +57,6 @@ class BinanceExchangeMessageTransformer:
 
     def report_missing_exchange_rate(self, symbol, price):
         def log_missing():
-            logging.warning(f'No transformation for raw instrument:{symbol} with price:{price}')
-        missing = Missing(symbol, Context.EXCHANGE, Market.BINANCE, f'Missing instrument:[{symbol}] with price:[{price}]')
+            self.log.warning(f'No transformation for raw instrument:{symbol} with price:{price}')
+        missing = Missing(symbol, Context.EXCHANGE, 'binance', f'Missing instrument:[{symbol}] with price:[{price}]')
         self.config_reporter.report_missing(missing, log_missing)

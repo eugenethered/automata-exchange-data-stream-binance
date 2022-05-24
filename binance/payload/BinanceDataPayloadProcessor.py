@@ -12,19 +12,20 @@ from data.payload.DataPayloadProcessor import DataPayloadProcessor
 class BinanceDataPayloadProcessor(DataPayloadProcessor):
 
     def __init__(self, message_processors: List[DataMessageProcessor]):
+        self.log = logging.getLogger(__name__)
         self.message_processors = message_processors
 
     def process_payload(self, payload):
         start_time = time.perf_counter()
 
         json_data = as_json(payload)
-        logging.debug(f'payload received:{json_data}')
+        self.log.debug(f'payload received:{json_data}')
         stream = as_data(json_data, 'stream')
         payload_data = as_data(json_data, 'data')
         self.process_payload_messages(payload_data, stream)
 
         end_time = time.perf_counter()
-        logging.info(f'processed payload in {end_time - start_time:0.4f} seconds')
+        self.log.info(f'processed payload in {end_time - start_time:0.4f} seconds')
 
     def process_payload_messages(self, payload_data, stream):
         for message in payload_data:
@@ -36,7 +37,6 @@ class BinanceDataPayloadProcessor(DataPayloadProcessor):
             if message_processor.get_listen_stream() == stream:
                 message_processor.process_message(payload_message)
 
-    @staticmethod
-    def post_payload_process():
-        logging.debug('post payload processing')
+    def post_payload_process(self):
+        self.log.debug('post payload processing')
         ConfigReporterHolder().delay_missing_storing()
