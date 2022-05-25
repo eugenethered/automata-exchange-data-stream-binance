@@ -12,5 +12,5 @@ class BinanceExchangeDataMessageHandler:
 
     def handle_exchange_rate(self, exchange_rate: ExchangeRate, event_time):
         if exchange_rate is not None:
-            self.log.info(f'Received {exchange_rate} for {event_time}')
+            self.log.debug(f'Received {exchange_rate} for {event_time}')
             self.repository.store(exchange_rate, event_time)

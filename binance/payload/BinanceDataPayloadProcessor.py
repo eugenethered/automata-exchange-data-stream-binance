@@ -25,7 +25,7 @@ class BinanceDataPayloadProcessor(DataPayloadProcessor):
         self.process_payload_messages(payload_data, stream)
 
         end_time = time.perf_counter()
-        self.log.info(f'processed payload in {end_time - start_time:0.4f} seconds')
+        self.log.debug(f'processed payload in {end_time - start_time:0.4f} seconds')
 
     def process_payload_messages(self, payload_data, stream):
         for message in payload_data:
