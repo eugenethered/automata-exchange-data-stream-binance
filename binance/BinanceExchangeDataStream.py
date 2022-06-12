@@ -23,6 +23,7 @@ class BinanceExchangeDataStream(ProcessBase):
     def init_web_socket_callbacks(self):
         self.ws_runner.set_stopped_callback(self.process_stopped)
         self.ws_runner.set_running_callback(self.process_running)
+        self.ws_runner.set_error_callback(self.process_error)
 
     def init_exchange_message_processor(self):
         repository = ExchangeTransformRepository(self.options)
