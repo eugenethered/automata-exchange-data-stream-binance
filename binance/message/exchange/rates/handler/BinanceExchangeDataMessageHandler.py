@@ -7,7 +7,7 @@ from exchangerepo.repository.ExchangeRateRepository import ExchangeRateRepositor
 class BinanceExchangeDataMessageHandler:
 
     def __init__(self, repository: ExchangeRateRepository):
-        self.log = logging.getLogger(__name__)
+        self.log = logging.getLogger('BinanceExchangeDataMessageHandler')
         self.repository = repository
 
     def handle_exchange_rate(self, exchange_rate: ExchangeRate, event_time):

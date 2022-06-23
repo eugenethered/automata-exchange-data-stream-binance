@@ -14,7 +14,7 @@ from missingrepo.Missing import Missing
 class BinanceExchangeMessageTransformer:
 
     def __init__(self, repository: ExchangeTransformRepository):
-        self.log = logging.getLogger(__name__)
+        self.log = logging.getLogger('BinanceExchangeMessageTransformer')
         self.repository = repository
         self.transformations = self.load_transformations()
         self.config_reporter = ConfigReporterHolder()

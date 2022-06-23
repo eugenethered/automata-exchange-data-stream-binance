@@ -12,7 +12,7 @@ from data.payload.DataPayloadProcessor import DataPayloadProcessor
 class BinanceDataPayloadProcessor(DataPayloadProcessor):
 
     def __init__(self, message_processors: List[DataMessageProcessor]):
-        self.log = logging.getLogger(__name__)
+        self.log = logging.getLogger('BinanceDataPayloadProcessor')
         self.message_processors = message_processors
 
     def process_payload(self, payload):
