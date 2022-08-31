@@ -1,0 +1,8 @@
+persuader-technology-automata-core>=0.5.7
+persuader-technology-automata-utilities>=0.1.4
+persuader-technology-automata-redis>=0.3.6
+persuader-technology-automata-process-manager>=0.2.0
+persuader-technology-automata-data-stream>=0.2.4
+persuader-technology-automata-exchange-repository>=0.2.9
+persuader-technology-automata-exchange-transform-repository>=0.1.9
+persuader-technology-automata-config>=0.1.4
