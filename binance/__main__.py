@@ -3,9 +3,8 @@ import logging
 from cache.holder.RedisCacheHolder import RedisCacheHolder
 from cache.provider.RedisCacheProviderWithTimeSeries import RedisCacheProviderWithTimeSeries
 from config.report.holder.ConfigReporterHolder import ConfigReporterHolder
-from core.arguments.command_line_arguments import url_option_arg_parser
+from core.environment.EnvironmentVariables import EnvironmentVariables
 from logger.ConfigureLogger import ConfigureLogger
-from metainfo.MetaInfo import MetaInfo
 
 from binance.BinanceExchangeDataStream import BinanceExchangeDataStream
 
@@ -13,19 +12,16 @@ from binance.BinanceExchangeDataStream import BinanceExchangeDataStream
 def start():
     ConfigureLogger()
 
-    meta_info = MetaInfo('persuader-technology-automata-exchange-data-stream-binance')
-
-    command_line_arg_parser = url_option_arg_parser(meta_info)
-    args = command_line_arg_parser.parse_args()
+    environment_variables = EnvironmentVariables()
 
     log = logging.getLogger('Binance Exchange Data Stream')
-    log.info(f'Starting with URL {args.url} OPTIONS {args.options}')
+    log.info(f'Starting with URL {environment_variables.url()}')
 
-    RedisCacheHolder(args.options, held_type=RedisCacheProviderWithTimeSeries)
+    RedisCacheHolder(environment_variables.options, held_type=RedisCacheProviderWithTimeSeries)
 
-    ConfigReporterHolder(args.options)
+    ConfigReporterHolder(environment_variables.options)
 
-    data_stream = BinanceExchangeDataStream(args.url, args.options)
+    data_stream = BinanceExchangeDataStream(environment_variables.url(), environment_variables.options)
     data_stream.receive_data()
 
 
