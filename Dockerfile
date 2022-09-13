@@ -24,7 +24,7 @@ ENV PYTHONPATH="${PYTHONPATH}:/app/binance" \
     EXCHANGE_RATE_TIMESERIES_KEY=exchange-rate \
     MISSING_KEY=binance:mv:missing \
     VERSION=0.1 \
-    PROCESS_RUN_PROFILE_KEY={}:process:run-profile:{} \
-    PROCESS_KEY={}:process:status:{}
+    PROCESS_RUN_PROFILE_KEY=binance:process:mv:run-profile \
+    PROCESS_KEY=binance:process:mv:status
 
 CMD ["python", "binance/__main__.py"]
