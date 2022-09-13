@@ -16,8 +16,12 @@ ENV PYTHONPATH="${PYTHONPATH}:/app/binance" \
     REDIS_SERVER_ADDRESS=127.0.0.1 \
     REDIS_SERVER_PORT=6379 \
     EXCHANGE_TRANSFORMATIONS_KEY=binance:transformation:mv:exchange \
-    EXCHANGE_RATE_TIMESERIES_KEY=binance:ts:exchange-rate:{} \
-    EXCHANGE_RATE_TIMESERIES_RETENTION=360000 \
+    INFLUXDB_SERVER_ADDRESS=127.0.0.1 \
+    INFLUXDB_SERVER_PORT=8086 \
+    INFLUXDB_AUTH_TOKEN=q3cfJCCyfo4RNJuyg72U-3uEhrv3qkKQcDOesoyeIDg2BCUpmn-mjReqaGwO7GOebhd58wYVkopi5tcgCj8t5w== \
+    INFLUXDB_AUTH_ORG=persuader-technology \
+    INFLUXDB_BUCKET=automata \
+    EXCHANGE_RATE_TIMESERIES_KEY=exchange-rate \
     MISSING_KEY=binance:mv:missing \
     VERSION=0.1 \
     PROCESS_RUN_PROFILE_KEY={}:process:run-profile:{} \
